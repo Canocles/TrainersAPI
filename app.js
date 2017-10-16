@@ -16,6 +16,7 @@ app.put('/api/entrenamientos/:entrenamientoId', entrenamientoController.updateEn
 app.delete('/api/entrenamientos/:entrenamientoId', entrenamientoController.deleteEntrenamiento)
 
 app.post('/api/signup', usuarioController.signUp)
+app.post('/api/signin', auth, usuarioController.signIn)
 app.get('/api/admin', auth, (req, res) => {
     res.status(200).send('Prueba')
 })
