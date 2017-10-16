@@ -2,7 +2,7 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var mongoose = require('mongoose')
 
-var Usuario = require('./models/usuario')
+var Entrenamiento = require('./models/entrenamiento')
 
 var app = express()
 var port = process.env.PORT || 3000
@@ -10,69 +10,62 @@ var port = process.env.PORT || 3000
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get('/api/usuarios', (req, res) => {
-    Usuario.find({}, (err, usuarios) => {
+app.get('/api/entrenamientos', (req, res) => {
+    Entrenamiento.find({}, (err, entrenamientos) => {
         if (err) return res.status(500).send({ message: 'Error al realizar la petición'})
-        if (!usuarios) return res.status(404).send({ message: 'No existen usuarios'})
+        if (!entrenamientos) return res.status(404).send({ message: 'No existen entrenamientos'})
 
-        return res.status(200).send({ usuarios })
+        return res.status(200).send({ entrenamientos })
     })
 })
 
-app.get('/api/usuarios/:usuarioId', (req, res) => {
-    var usuarioId = req.params.usuarioId
+app.get('/api/entrenamientos/:entrenamientoId', (req, res) => {
+    var entrenamientoId = req.params.entrenamientoId
 
-    Usuario.findById(usuarioId, (err, usuario) => {
+    Entrenamiento.findById(entrenamientoId, (err, entrenamiento) => {
         if (err) return res.status(500).send({ message: 'Error al realizar la petición'})
-        if (!usuario) return res.status(404).send({ message: 'El usuario no existe'})
+        if (!entrenamiento) return res.status(404).send({ message: 'El entrenamiento no existe'})
 
-        return res.status(200).send({ usuario })
+        return res.status(200).send({ entrenamiento })
     })
 })
 
-app.post('/api/usuarios', (req, res) => {
-    console.log('POST /api/usuarios')
+app.post('/api/entrenamientos', (req, res) => {
+    console.log('POST /api/entrenamientos')
     console.log(req.body)
 
-    var usuario = new Usuario()
-    usuario.login = req.body.login
-    usuario.nombre = req.body.nombre
-    usuario.apellidos = req.body.apellidos
-    usuario.email = req.body.email
-    usuario.sexo = req.body.sexo
-    usuario.edad = req.body.edad
+    var entrenamiento = new Entrenamiento()
+    entrenamiento.nombre = req.body.nombre
+    entrenamiento.descripcion = req.body.descripcion
+    entrenamiento.dificultad = req.body.dificultad
 
-    /*
-    usuario.save()
-        .then(res.status(200).send(req.body))
-        */
-    usuario.save((err, usuarioStored) => {
-        if (err) res.status(500).send({ message: 'Error al guardar en la base de detos' })
+    entrenamiento.save((err, entrenamientoStored) => {
+    if (err) res.status(500).send({ message: 'Error al guardar en la base de detos' })
 
-        res.status(201).send({ usuario: usuarioStored })
+    res.status(201).send({ entrenamiento: entrenamientoStored })
     })
 })
 
-app.put('/api/usuarios/:usuarioId', (req, res) => {
-    var usuarioId = req.params.usuarioId
+app.put('/api/entrenamientos/:entrenamientoId', (req, res) => {
+    var entrenamientoId = req.params.entrenamientoId
     var update = req.body
 
-    Usuario.findByIdAndUpdate(usuarioId, update, (err, usuarioUpdate) => {
-        if (err) return res.status(500).send({ message: 'No existe el usuario'})
+    Entrenamiento.findByIdAndUpdate(entrenamientoId, update, (err, entrenamientoUpdate) => {
+        if (err) return res.status(500).send({ message: 'No existe el entrenamiento'})
 
-        return res.status(200).send({ usuario: usuarioUpdate })
+        return res.status(200).send({ entrenamiento: entrenamientoUpdate })
     })
 })
 
-app.delete('/api/usuarios/:usuarioId', (req, res) => {
-    var usuarioId = req.params.usuarioId
+app.delete('/api/entrenamientos/:entrenamientoId', (req, res) => {
+    var entrenamientoId = req.params.entrenamientoId
 
-    Usuario.findById(usuarioId, (err, usuario) => {
-        if (err) return res.status(500).send({ message: 'No existe el usuario'})
+    Entrenamiento.findById(entrenamientoId, (err, entrenamiento) => {
+        if (err) return res.status(500).send({ message: 'No existe el entrenamiento'})
 
-        usuario.remove(err => {
-            if (err) return res.status(500).send({ message: 'Error al eliminar el usuario'})
-            res.status(200).send({ message: 'El usuario ha sido eliminado '})
+        entrenamiento.remove(err => {
+            if (err) return res.status(500).send({ message: 'Error al eliminar el entrenamiento'})
+            res.status(200).send({ message: 'El entrenamiento ha sido eliminado '})
         })
     })
 })
