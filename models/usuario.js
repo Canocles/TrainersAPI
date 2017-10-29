@@ -10,10 +10,13 @@ var UsuarioSchema = Schema ({
     apellidos: String,
     fechaNacimiento: Date,
     sexo: String,
-    avatar: String,
     password: { type: String, select: false },
     signupDate: { type: Date, default: Date.now() },
-    lastLogin: Date
+    lastLogin: Date,
+    entrenamientos: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Entrenamiento'
+    }]
 })
 
 UsuarioSchema.pre('save', function (next) {
@@ -31,12 +34,5 @@ UsuarioSchema.pre('save', function (next) {
         })
     })
 })
-
-UsuarioSchema.methods.gravatar = function () {
-    if (!this.email) return `https://gravatar.com/avatar/?s=200&d=retro`
-
-    var md5 = crypto.createHash('md5').update(this.email).digest('hex')
-    return `https://gravatar.com/avatar/${md5}?s=200&d=retro`
-}
 
 module.exports = mongoose.model('Usuario', UsuarioSchema)

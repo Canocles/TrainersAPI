@@ -1,4 +1,5 @@
 var Entrenamiento = require('../models/entrenamiento')
+var Usuario = require('../models/usuario')
 
 function getEntrenamientos (req, res) {
     Entrenamiento.find({}, (err, entrenamientos) => {
@@ -21,18 +22,30 @@ function getEntrenamiento (req, res) {
 }
 
 function addEntrenamiento (req, res) {
-    console.log('POST /api/entrenamientos')
-    console.log(req.body)
+    var usuario = Usuario.findById(req.params.usuarioId, (err, usuario) => {
+        if (err) return res.status(500).send({ message: 'Error al realizar la petición'})
+        if (!usuario) return res.status(404).send({ message: 'El usuario no existe'})
+        else {
+            var entrenamiento = new Entrenamiento()
+            entrenamiento.nombre = req.body.nombre
+            entrenamiento.descripcion = req.body.descripcion
+            entrenamiento.dificultad = req.body.dificultad
+            entrenamiento.creador = usuario._id
 
-    var entrenamiento = new Entrenamiento()
-    entrenamiento.nombre = req.body.nombre
-    entrenamiento.descripcion = req.body.descripcion
-    entrenamiento.dificultad = req.body.dificultad
-
-    entrenamiento.save((err, entrenamientoStored) => {
-    if (err) res.status(500).send({ message: 'Error al guardar en la base de detos' })
-
-    res.status(201).send({ entrenamiento: entrenamientoStored })
+            entrenamiento.save((err, entrenamientoGuardado) => {
+                if (err) 
+                res.status(500).send({ message: 'Error al guardar en la base de detos' })
+                else {
+                    usuario.entrenamientos.push(entrenamiento)
+                    usuario.save((err, usuarioStored) => {
+                        if (err)
+                            res.statu(500).send({ message: 'Error al guardar los entrenamientos en el usuario' })
+                        else
+                            res.status(201).send({ entrenamiento: entrenamientoGuardado, usuario: usuarioStored })
+                    })
+                }
+            })
+        }
     })
 }
 
