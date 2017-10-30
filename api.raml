@@ -1,34 +1,407 @@
 #%RAML 1.0
-tittle: API Trainners
+title: API Trainners
 mediaType: application/json
 baseUri: https://api-rest-trainners.herokuapp.com/
 /usuarios:
-    description: Colección de usuarios disponibles
-    get:
-        description: Lista de todos los usuarios, sólo si se está autenticado.
-        responses:
-            200:
-                body:
-                    example: |
-                        [  
-                            {
-                                "_id": "59e50a1a718f8e294f63b95c",
-                                "nombre": "Lefflife",
-                                "__v": 0,
-                                "entrenamientos": [],
-                                "signupDate": "2017-10-30T15:07:13.183Z"
-                            },
-                            {
-                                "_id": "59e5377fbb828e15795a0928",
-                                "email": "prueba@prueba.com",
-                                "login": "Prueba",
-                                "__v": 0,
-                                "entrenamientos": [],
-                                "signupDate": "2017-10-16T22:49:31.427Z"
-                            }
-                        ]
-/registro:
-    description: Crea un nuevo usuario en la base de datos y le asigna un token.
+  description: Colección de usuarios disponibles
+  get:
+    description: Lista de todos los usuarios, sólo si se está autenticado
+    headers: 
+      Authorization: 
+        example: |
+          {
+            "Authorization": "Bealer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OWY1YWUwOTIxMjQwYjBjZDU1YmFkNTEiLCJpYXQiOjE1MDkyNzMwOTcsImV4cCI6MTUwOTg3Nzg5N30.DWFQVp5sjVl5oaDJmtUQbdBTZZq3xIVe1bGOL6ODgz0"
+          }
     responses:
+        200:
+          body:
+            example: |
+                {
+                  "usuarios": [
+                    {
+                      "_id": "59e54006d9376e1e00ecbbb9",
+                      "email": "canocles@gmail.com",
+                      "__v": 6,
+                      "entrenamientos": [
+                          "59f75d2a63178a400cdf455d",
+                          "59f75db7335b4b40d332a5bd",
+                          "59f75dd5bc4f4e40fd53c29c",
+                          "59f75de59ba3cc4125366033",
+                          "59f75df53c8d3d41584b7ec4",
+                          "59f75e10bbbe3c418dbcf4d1"
+                      ],
+                      "signupDate": "2017-10-16T23:25:29.512Z"
+                    }
+                  ],
+                  "_links": {
+                    "self": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios"
+                    }
+                  }
+                }
+        500:
+          body:
+          description: Debe devolver el error concreto del fallo del servidor
+  /{usuarioId}:
+    description: Muestra un usuario concreto
+    get:
+      headers:
+        Authorization:
+          example: |
+            {
+              "Authorization": "Bealer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OWY1YWUwOTIxMjQwYjBjZDU1YmFkNTEiLCJpYXQiOjE1MDkyNzMwOTcsImV4cCI6MTUwOTg3Nzg5N30.DWFQVp5sjVl5oaDJmtUQbdBTZZq3xIVe1bGOL6ODgz0"
+            }
+      responses:
+        500:
+          body:
+            description: Debe devolver el error concreto del fallo del servidor
+        404:
+          body:
+            example: |
+              {
+              "message": "No existen entrenamientos"
+              }
+        200:
+          body:
+            example: |
+              {
+                "usuario": {
+                    "_id": "59e54006d9376e1e00ecbbb9",
+                    "email": "canocles@gmail.com",
+                    "__v": 6,
+                    "entrenamientos": [
+                        "59f75d2a63178a400cdf455d",
+                        "59f75db7335b4b40d332a5bd",
+                        "59f75dd5bc4f4e40fd53c29c",
+                        "59f75de59ba3cc4125366033",
+                        "59f75df53c8d3d41584b7ec4",
+                        "59f75e10bbbe3c418dbcf4d1"
+                    ],
+                    "signupDate": "2017-10-16T23:25:29.512Z"
+                },
+                "_links": {
+                    "self": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9"
+                    },
+                    "usuario": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/"
+                    }
+                }
+              }
+  /{usuarioId}/entrenamientos:
+    description: Colección de entrenamientos por usuario
+    get:
+      description: Muestra la lista de todos los entrenamientos
+      headers: 
+        Authorization: 
+          example: |
+            {
+              "Authorization": "Bealer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OWY1YWUwOTIxMjQwYjBjZDU1YmFkNTEiLCJpYXQiOjE1MDkyNzMwOTcsImV4cCI6MTUwOTg3Nzg5N30.DWFQVp5sjVl5oaDJmtUQbdBTZZq3xIVe1bGOL6ODgz0"
+            }
+      responses:
+        500:
+          body:
+            example: |
+              {
+                "message": "Error al realizar la petición"
+              }
+        404:
+          body:
+            example: |
+              {
+                "message": "No existen entrenamientos"
+              }
+        200:
+          body:
+            example: |
+              {
+                "entrenamientos": [
+                  {
+                      "_id": "59f75db7335b4b40d332a5bd",
+                      "creador": "59e54006d9376e1e00ecbbb9",
+                      "dificultad": 5,
+                      "descripcion": "Entrenamiento cardio",
+                      "nombre": "Fase 1",
+                      "__v": 0
+                  }
+                ],
+                "_links": {
+                    "self": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9/entrenamientos"
+                    },
+                    "usuario": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9"
+                    }
+                }
+              }
+    post:
+      description: Crea un nuevo entrenamiento para el usuario
+      headers: 
+        Authorization: 
+          example: |
+            {
+              "Authorization": "Bealer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OWY1YWUwOTIxMjQwYjBjZDU1YmFkNTEiLCJpYXQiOjE1MDkyNzMwOTcsImV4cCI6MTUwOTg3Nzg5N30.DWFQVp5sjVl5oaDJmtUQbdBTZZq3xIVe1bGOL6ODgz0"
+            }
+      responses:
+        500:
+          body:
+            example: |
+              {
+                "message": "Error al guardar en la base de datos"
+              }
+        404:
+          body:
+            example: |
+              {
+                "message": "El usuario no existe"
+              }
         201:
-            body:
+          body:
+            example: |
+              {
+                "entrenamientoGuardado": {
+                    "__v": 0,
+                    "creador": "59e54006d9376e1e00ecbbb9",
+                    "dificultad": 5,
+                    "descripcion": "asdjasdjasdjasdasdj",
+                    "nombre": "Entrenamiento to guap",
+                    "_id": "59f78324dd7d8e5a9d51203c"
+                },
+                "usuarioStored": {
+                    "_id": "59e54006d9376e1e00ecbbb9",
+                    "email": "canocles@gmail.com",
+                    "__v": 7,
+                    "entrenamientos": [
+                        "59f75d2a63178a400cdf455d",
+                        "59f75db7335b4b40d332a5bd",
+                        "59f75dd5bc4f4e40fd53c29c",
+                        "59f75de59ba3cc4125366033",
+                        "59f75df53c8d3d41584b7ec4",
+                        "59f75e10bbbe3c418dbcf4d1",
+                        "59f78324dd7d8e5a9d51203c"
+                    ],
+                    "signupDate": "2017-10-16T23:25:29.512Z"
+                },
+                "_links": {
+                    "entrenamientos": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9/entrenamientos"
+                    },
+                    "usuario": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9"
+                    }
+                }
+              }
+  /{usuarioId}/entrenamientos/{entrenamientoId}:
+    description: Entrenamiento concreto de la lista de entrenamientos de un usuario.
+    get:
+      description: Muestra un entrenamiento concreto
+      headers:
+        Authorization: 
+          example: |
+            {
+              "Authorization": "Bealer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OWY1YWUwOTIxMjQwYjBjZDU1YmFkNTEiLCJpYXQiOjE1MDkyNzMwOTcsImV4cCI6MTUwOTg3Nzg5N30.DWFQVp5sjVl5oaDJmtUQbdBTZZq3xIVe1bGOL6ODgz0"
+            }
+      responses:
+        500:
+          body:
+            example: |
+              {
+                "message": "Error al realizar la petición"
+              }
+        404:
+          body:
+            example: |
+              {
+                "message": "El entrenamiento no existe"
+              }
+        200:
+          body:
+            example: |
+              {
+                "entrenamiento": {
+                    "_id": "59f75db7335b4b40d332a5bd",
+                    "creador": "59e54006d9376e1e00ecbbb9",
+                    "dificultad": 5,
+                    "descripcion": "asdjasdjasdjasdasdj",
+                    "nombre": "Entrenamiento to guap",
+                    "__v": 0
+                },
+                "_links": {
+                    "self": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9/entrenamientos/59f75db7335b4b40d332a5bd"
+                    },
+                    "entrenamientos": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9/entrenamientos"
+                    },
+                    "usuario": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9"
+                    }
+                }
+              }
+    put:
+      description: Modifica un entrenamiento concreto
+      headers:
+        Authorization: 
+          example: |
+            {
+              "Authorization": "Bealer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OWY1YWUwOTIxMjQwYjBjZDU1YmFkNTEiLCJpYXQiOjE1MDkyNzMwOTcsImV4cCI6MTUwOTg3Nzg5N30.DWFQVp5sjVl5oaDJmtUQbdBTZZq3xIVe1bGOL6ODgz0"
+            }
+      responses:
+        500:
+          body:
+            example: |
+              {
+                "message": "Error al realizar la petición"
+              }
+        404:
+          body:
+            example: |
+              {
+                "message": "El entrenamiento no existe"
+              }
+        201:
+          body:
+            example: |
+              {
+                "entrenamientoUpdate": {
+                    "_id": "59f75db7335b4b40d332a5bd",
+                    "creador": "59e54006d9376e1e00ecbbb9",
+                    "dificultad": 5,
+                    "descripcion": "asdjasdjasdjasdasdj",
+                    "nombre": "Entrenamiento to guap",
+                    "__v": 0
+                },
+                "_links": {
+                    "self": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9/entrenamientos/59f75db7335b4b40d332a5bd"
+                    },
+                    "entrenamientos": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9/entrenamientos"
+                    },
+                    "usuario": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9"
+                    }
+                }
+              }
+    delete:
+      description: Borra un entrenamiento concreto
+      headers:
+        Authorization: 
+          example: |
+            {
+              "Authorization": "Bealer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OWY1YWUwOTIxMjQwYjBjZDU1YmFkNTEiLCJpYXQiOjE1MDkyNzMwOTcsImV4cCI6MTUwOTg3Nzg5N30.DWFQVp5sjVl5oaDJmtUQbdBTZZq3xIVe1bGOL6ODgz0"
+            }
+      responses:
+        500:
+          body:
+            example: |
+              {
+                "message": "Error al realizar la petición"
+              }
+        404:
+          body:
+            example: |
+              {
+                "message": "El entrenamiento no existe"
+              }
+        200:
+          body:
+            example: |
+              {
+                "message": "El entremmiento ha sido eliminado con éxito",
+                "entrenamientoDeleted": {
+                    "_id": "59f75db7335b4b40d332a5bd",
+                    "creador": "59e54006d9376e1e00ecbbb9",
+                    "dificultad": 2,
+                    "descripcion": "asdjasdjasdjasdasdj",
+                    "nombre": "LaRisa",
+                    "__v": 0
+                },
+                "_links": {
+                    "self": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9/entrenamientos/59f75db7335b4b40d332a5bd"
+                    },
+                    "entrenamientos": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9/entrenamientos"
+                    },
+                    "usuario": {
+                        "href": "https://api-rest-trainners.herokuapp.com/usuarios/59e54006d9376e1e00ecbbb9"
+                    }
+                }
+              }
+/login:
+  description: Acceder al API mediante email y contraseña, refrescando el token
+  post:
+    description: Simulamos un login, que refresacará el token
+    headers:
+      Authorization: 
+          example: |
+            {
+              "Authorization": "Bealer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OWY1YWUwOTIxMjQwYjBjZDU1YmFkNTEiLCJpYXQiOjE1MDkyNzMwOTcsImV4cCI6MTUwOTg3Nzg5N30.DWFQVp5sjVl5oaDJmtUQbdBTZZq3xIVe1bGOL6ODgz0"
+            }
+    responses:
+      500:
+          description: Debe devolver el error concreto del fallo del servidor
+      404:
+          body:
+            example: |
+              {
+                "message": "No existe el usuario"
+              }
+      400:
+        body:
+            example: |
+              {
+                "message": "Ha dejado campos sin rellenar"
+              }
+      200:
+        body:
+          example: |
+            {
+              "message": "Te has logeado correctamente",
+              "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OWY3NjhmNGM2MmJlYzRiMmEwYjk1YWEiLCJpYXQiOjE1MDkzOTM5MDIsImV4cCI6MTUwOTk5ODcwMn0.aQKJQcGnfkC3AldLcAYwlFqTFM4gJDhhta2ndL8PRU4",
+              "_links": {
+                  "self": {
+                      "href": "https://api-rest-trainners.herokuapp.com/login"
+                  },
+                  "usuario": {
+                      "href": "https://api-rest-trainners.herokuapp.com/usuarios/59f768f4c62bec4b2a0b95aa"
+                  }
+              }
+            }
+/registro:
+  description: Crear nuevo usuario y asignarle un token
+  post:
+    responses:
+      500:
+          description: Debe devolver el error concreto del fallo del servidor
+      404:
+          body:
+            example: |
+              {
+                "message": "No existe el usuario"
+              }
+      400:
+        body:
+            example: |
+              {
+                "message": "Ha dejado campos sin rellenar"
+              }
+      201:
+        body:
+          example: |
+            {
+              "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OWY3ODY2MThmZTFmNTVjY2VmNGY1NDQiLCJpYXQiOjE1MDkzOTQwMTcsImV4cCI6MTUwOTk5ODgxN30.fx3z9FU5WzrEO2lixEMisHuFQNKAKq5mo3cISLUa4LY",
+              "email": "Alfonso@gmail.com",
+              "login": "alfonsoreshulon",
+              "password": "1",
+              "_links": {
+                  "self": {
+                      "href": "https://api-rest-trainners.herokuapp.com/registro"
+                  },
+                  "usuario": {
+                      "href": "https://api-rest-trainners.herokuapp.com/usuarios/59f786618fe1f55ccef4f544"
+                  }
+              }
+            }
+  

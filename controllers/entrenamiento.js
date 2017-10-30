@@ -1,5 +1,6 @@
 var Entrenamiento = require('../models/entrenamiento')
 var Usuario = require('../models/usuario')
+var config = require('../config').url
 var hal = require('hal');
 
 function getEntrenamientos (req, res) {
@@ -13,8 +14,8 @@ function getEntrenamientos (req, res) {
                 if (!entrenamientos) return res.status(404).send({ message: 'No existen entrenamientos'})
 
                 var resource = new hal.Resource();
-                resource.link('self', `/usuarios/${usuarioId}/entrenamientos`)
-                resource.link('usuario', `/usuarios/${usuarioId}`)
+                resource.link('self', `${config}/usuarios/${usuarioId}/entrenamientos`)
+                resource.link('usuario', `${config}/usuarios/${usuarioId}`)
                 var resultado = Object.assign({ entrenamientos }, req.body, resource.toJSON())
                 return res.status(200).send(resultado)
             })
@@ -34,10 +35,10 @@ function getEntrenamiento (req, res) {
                 if (!entrenamiento) return res.status(404).send({ message: 'El entrenamiento no existe'})
 
                 var resource = new hal.Resource();
-                resource.link('self', `/usuarios/${usuarioId}/entrenamientos/${entrenamientoId}`)
-                resource.link('entrenamientos', `/usuarios/${usuarioId}/entrenamientos`)
-                resource.link('usuario', `/usuarios/${usuarioId}`)
-                var resultado = Object.assign({ entrenamientos }, req.body, resource.toJSON())
+                resource.link('self', `${config}/usuarios/${usuarioId}/entrenamientos/${entrenamientoId}`)
+                resource.link('entrenamientos', `${config}/usuarios/${usuarioId}/entrenamientos`)
+                resource.link('usuario', `${config}/usuarios/${usuarioId}`)
+                var resultado = Object.assign({ entrenamiento }, req.body, resource.toJSON())
                 return res.status(200).send(resultado)
             })
         }
@@ -65,8 +66,8 @@ function addEntrenamiento (req, res) {
                             res.statu(500).send({ message: 'Error al guardar los entrenamientos en el usuario' })
                         
                         var resource = new hal.Resource();
-                        resource.link('entrenamientos', `/usuarios/${req.params.usuarioId}/entrenamientos`)
-                        resource.link('usuario', `/usuarios/${req.params.usuarioId}`)
+                        resource.link('entrenamientos', `${config}/usuarios/${req.params.usuarioId}/entrenamientos`)
+                        resource.link('usuario', `${config}/usuarios/${req.params.usuarioId}`)
                         var resultado = Object.assign({entrenamientoGuardado, usuarioStored}, resource.toJSON())
                         res.status(201).send(resultado)
                     })
@@ -90,9 +91,9 @@ function updateEntrenamiento (req, res) {
                 if (!entrenamientoUpdate) return res.status(404).send({ message: 'El entrenamiento no existe' })
 
                 var resource = new hal.Resource();
-                resource.link('self', `/usuarios/${usuarioId}/entrenamientos/${entrenamientoId}`)
-                resource.link('entrenamientos', `/usuarios/${usuarioId}/entrenamientos`)
-                resource.link('usuario', `/usuarios/${usuarioId}`)
+                resource.link('self', `${config}/usuarios/${usuarioId}/entrenamientos/${entrenamientoId}`)
+                resource.link('entrenamientos', `${config}/usuarios/${usuarioId}/entrenamientos`)
+                resource.link('usuario', `${config}/usuarios/${usuarioId}`)
                 var resultado = Object.assign({entrenamientoUpdate}, resource.toJSON())
                 return res.status(201).send(resultado)
             })
@@ -116,9 +117,9 @@ function deleteEntrenamiento (req, res) {
                     if (err) return res.status(500).send({ message: 'Error al eliminar el entrenamiento'})
 
                     var resource = new hal.Resource();
-                    resource.link('self', `/usuarios/${usuarioId}/entrenamientos/${entrenamientoId}`)
-                    resource.link('entrenamientos', `/usuarios/${usuarioId}/entrenamientos`)
-                    resource.link('usuario', `/usuarios/${usuarioId}`)
+                    resource.link('self', `${config}/usuarios/${usuarioId}/entrenamientos/${entrenamientoId}`)
+                    resource.link('entrenamientos', `${config}/usuarios/${usuarioId}/entrenamientos`)
+                    resource.link('usuario', `${config}/usuarios/${usuarioId}`)
                     var resultado = Object.assign({message: 'El entremmiento ha sido eliminado con éxito'}, {entrenamientoDeleted}, resource.toJSON())
                     return res.status(201).send(resultado)
                     res.status(200).send(resultado)

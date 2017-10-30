@@ -1,6 +1,7 @@
 var mongoose = require('mongoose')
 var Usuario = require('../models/usuario')
 var service = require('../services')
+var config = require('../config').url
 var hal = require('hal');
 
 function signUp (req, res) {
@@ -16,8 +17,8 @@ function signUp (req, res) {
         if (err) res.status(500).send({ message: 'Error al crear el usuario' })
         else {
             var resource = new hal.Resource();
-            resource.link('self', `/registro`)
-            resource.link('usuario', `/usuarios/${usuario._id}`)
+            resource.link('self', `${config}/registro`)
+            resource.link('usuario', `${config}/usuarios/${usuario._id}`)
             var resultado = Object.assign({ token: service.createToken(usuario)}, req.body, resource.toJSON())
             return res.status(201).send(resultado)
         }
@@ -35,8 +36,8 @@ function signIn (req, res) {
         if (!usuario) return res.status(404).send({ message: 'No existe el usuario' })
         else {
             var resource = new hal.Resource();
-            resource.link('self', `/login`)
-            resource.link('usuario', `/usuarios/${usuario._id}`)
+            resource.link('self', `${config}/login`)
+            resource.link('usuario', `${config}/usuarios/${usuario._id}`)
             var resultado = Object.assign({ message: 'Te has logeado correctamente', token: service.createToken(usuario) }, resource.toJSON())
             return res.status(200).send(resultado)
         }
@@ -46,10 +47,9 @@ function signIn (req, res) {
 function getUsuarios (req, res) {
     Usuario.find({}, (err, usuarios) => {
         if (err) return res.status(500).send({ message: err })
-        if (!usuarios) return res.status(404).send({ message: 'No existe el usuario' })
 
         var resource = new hal.Resource();
-        resource.link('self', `/usuarios`)
+        resource.link('self', `${config}/usuarios`)
         var resultado = Object.assign({ usuarios }, resource.toJSON())
         return res.status(200).send(resultado)
     })
@@ -62,8 +62,8 @@ function getUsuario (req, res) {
         if (!usuario) return res.status(404).send({ message: 'No existe el usuario' })
 
         var resource = new hal.Resource();
-        resource.link('self', `/usuarios/${usuario._id}`)
-        resource.link('usuario', `/usuarios/`)
+        resource.link('self', `${config}/usuarios/${usuario._id}`)
+        resource.link('usuario', `${config}/usuarios/`)
         var resultado = Object.assign({ usuario }, resource.toJSON())
         return res.status(200).send(resultado)
     })
