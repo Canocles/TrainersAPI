@@ -1,1 +1,34 @@
 #%RAML 1.0
+tittle: API Trainners
+mediaType: application/json
+baseUri: https://api-rest-trainners.herokuapp.com/
+/usuarios:
+    description: Colección de usuarios disponibles
+    get:
+        description: Lista de todos los usuarios, sólo si se está autenticado.
+        responses:
+            200:
+                body:
+                    example: |
+                        [  
+                            {
+                                "_id": "59e50a1a718f8e294f63b95c",
+                                "nombre": "Lefflife",
+                                "__v": 0,
+                                "entrenamientos": [],
+                                "signupDate": "2017-10-30T15:07:13.183Z"
+                            },
+                            {
+                                "_id": "59e5377fbb828e15795a0928",
+                                "email": "prueba@prueba.com",
+                                "login": "Prueba",
+                                "__v": 0,
+                                "entrenamientos": [],
+                                "signupDate": "2017-10-16T22:49:31.427Z"
+                            }
+                        ]
+/registro:
+    description: Crea un nuevo usuario en la base de datos y le asigna un token.
+    responses:
+        201:
+            body:

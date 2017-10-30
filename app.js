@@ -9,14 +9,15 @@ var usuarioController = require('./controllers/usuario')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get('/api/usuarios/:usuarioId/entrenamientos', auth, entrenamientoController.getEntrenamientos)
-app.get('/api/usuarios/:usuarioId/entrenamientos/:entrenamientoId', auth, entrenamientoController.getEntrenamiento)
-app.post('/api/usuarios/:usuarioId/entrenamientos', auth, entrenamientoController.addEntrenamiento)
-app.put('/api/usuarios/:usuarioId/entrenamientos/:entrenamientoId', auth, entrenamientoController.updateEntrenamiento)
-app.delete('/api/usuarios/:usuarioId/entrenamientos/:entrenamientoId', auth, entrenamientoController.deleteEntrenamiento)
+app.get('/usuarios/:usuarioId/entrenamientos', auth, entrenamientoController.getEntrenamientos)
+app.get('/usuarios/:usuarioId/entrenamientos/:entrenamientoId', auth, entrenamientoController.getEntrenamiento)
+app.post('/usuarios/:usuarioId/entrenamientos', auth, entrenamientoController.addEntrenamiento)
+app.put('/usuarios/:usuarioId/entrenamientos/:entrenamientoId', auth, entrenamientoController.updateEntrenamiento)
+app.delete('/usuarios/:usuarioId/entrenamientos/:entrenamientoId', auth, entrenamientoController.deleteEntrenamiento)
 
-app.post('/api/signup', usuarioController.signUp)
-app.post('/api/signin', usuarioController.signIn)
-app.get('/api/admin', auth, usuarioController.getUsuario)
+app.post('/registro', usuarioController.signUp)
+app.post('/login', usuarioController.signIn)
+app.get('/usuarios', auth, usuarioController.getUsuarios)
+app.get('/usuarios/:usuarioId', auth, usuarioController.getUsuario)
 
 module.exports = app
