@@ -2,12 +2,14 @@ var express = require('express')
 var bodyParser = require('body-parser')
 var app = express()
 var auth = require('./middlewares/auth')
+var cors = require('cors')
 
 var entrenamientoController = require('./controllers/entrenamiento')
 var usuarioController = require('./controllers/usuario')
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use(cors())
 
 app.get('/usuarios/:usuarioId/entrenamientos', auth, entrenamientoController.getEntrenamientos)
 app.get('/usuarios/:usuarioId/entrenamientos/:entrenamientoId', auth, entrenamientoController.getEntrenamiento)
