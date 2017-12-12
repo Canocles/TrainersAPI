@@ -1,26 +1,34 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 
-export default () => {
+class NavigationBar extends React.Component {
+  
+  constructor (props) {
+        super(props)
+  }
+
+  render() {
     return (
         <nav className="navbar navbar-dark bg-dark">
-             <Link to="/" className="navbar-brand" href="/">Trainners App</Link>
+             <a className="navbar-brand" href="/">Trainners App</a>
              <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                <span className="navbar-toggler-icon"></span>
              </button>
              <div className="collapse navbar-collapse" id="navbarNavDropdown">
                <ul className="navbar-nav">
                  <li className="nav-item active">
-                   <Link to="/" className="nav-link">Inicio <span className="sr-only">(current)</span></Link>
+                   <a className="nav-link">Inicio <span className="sr-only">(current)</span></a>
                  </li>
                  <li className="nav-item">
-                   <Link to="/registro" className="nav-link">Registro</Link>
+                   <a className="nav-link">Registro</a>
                  </li>
                  <li className="nav-item">
-                   <Link to="/login" className="nav-link">Login</Link>
+                   <a onClick={this.props.handleLogin} className="nav-link">Login</a>
                  </li>
                </ul>
              </div>
         </nav>
     )
+  }
 }
+
+export default NavigationBar
