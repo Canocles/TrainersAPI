@@ -38,7 +38,7 @@ function signIn (req, res) {
             var resource = new hal.Resource();
             resource.link('self', `${config}/login`)
             resource.link('usuario', `${config}/usuarios/${usuario._id}`)
-            var resultado = Object.assign({ message: 'Te has logeado correctamente', token: service.createToken(usuario) }, resource.toJSON())
+            var resultado = Object.assign({ message: 'Te has logeado correctamente', token: service.createToken(usuario), usuario_id: usuario.id }, resource.toJSON())
             return res.status(200).send(resultado)
         }
     })

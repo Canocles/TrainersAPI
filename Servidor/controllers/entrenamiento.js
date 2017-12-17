@@ -54,23 +54,18 @@ function addEntrenamiento (req, res) {
             entrenamiento.nombre = req.body.nombre
             entrenamiento.descripcion = req.body.descripcion
             entrenamiento.dificultad = req.body.dificultad
-            entrenamiento.creador = usuario._id
+            entrenamiento.creador = req.params.usuarioId
 
             entrenamiento.save((err, entrenamientoGuardado) => {
                 if (err) 
                 res.status(500).send({ message: 'Error al guardar en la base de detos' })
                 else {
                     usuario.entrenamientos.push(entrenamiento)
-                    usuario.save((err, usuarioStored) => {
-                        if (err)
-                            res.statu(500).send({ message: 'Error al guardar los entrenamientos en el usuario' })
-                        
-                        var resource = new hal.Resource();
-                        resource.link('entrenamientos', `${config}/usuarios/${req.params.usuarioId}/entrenamientos`)
-                        resource.link('usuario', `${config}/usuarios/${req.params.usuarioId}`)
-                        var resultado = Object.assign({entrenamientoGuardado, usuarioStored}, resource.toJSON())
-                        res.status(201).send(resultado)
-                    })
+                    var resource = new hal.Resource();
+                    resource.link('entrenamientos', `${config}/usuarios/${req.params.usuarioId}/entrenamientos`)
+                    resource.link('usuario', `${config}/usuarios/${req.params.usuarioId}`)
+                    var resultado = Object.assign({entrenamientoGuardado}, resource.toJSON())
+                    res.status(201).send(resultado)
                 }
             })
         }
