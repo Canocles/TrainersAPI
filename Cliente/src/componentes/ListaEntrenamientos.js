@@ -27,7 +27,7 @@ class ListaEntrenamientos extends React.Component {
                 console.log('Entrenamintos ahora tiene ' + this.state.entrenamientos.length)
             }
             else {
-                this.setState({ mensajeError: 'Aún no tienes entrenamientos asignados ni creados.' })
+                this.cambiarMensajeError('Aún no tienes entrenamientos asignados ni creados.')
             }
 		})
     }
@@ -165,7 +165,7 @@ class ListaEntrenamientos extends React.Component {
                             </div>
         }
         else {
-            if (this.state.mensajeError !== null) {
+            if (this.state.mensajeError.includes('no tienes entrenamientos') {
                 divContainer = <div className="alert alert-danger fade-in">
                                     <a className="close" data-dismiss="alert" aria-label="close">&times;</a>
                                     <strong>Atención:</strong> No tienes entrenamientos asignados ni creados.
