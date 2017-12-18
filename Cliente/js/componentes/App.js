@@ -22,11 +22,8 @@ class App extends React.Component {
             mensajeError: undefined,
             enntrenamientoForm: false,
             entrenamientos: false,
+            usuario: null
         }
-    }
-
-    componentDidMount() {
-        
     }
 
     render() {
@@ -78,8 +75,8 @@ class App extends React.Component {
         new API_servicios().login({email, password}).then(res => {
             if (res.token) {
                 localStorage.token = res.token
-                localStorage.email = email
-                localStorage.usuario = res.usuario_id
+                localStorage.login = res.usuario.login
+                localStorage.usuario = res.usuario._id
                 localStorage.password = password
                 localStorage.logeado = true;
                 this.setState({login: false, registrado: false})

@@ -1,3 +1,5 @@
+import React from 'react'
+
 class API_servicios {
     constructor() {
         this.url = 'http://localhost:3000'
@@ -54,14 +56,14 @@ class API_servicios {
 		}).then(res => { return res.json() }).catch(err => { return err })
 	}
 
-	updateEntrenamiento(req) {
-		return fetch(this.url + '/usuarios/' + req.usuario + '/entrenamientos/' + req.entrenamiento, {
+	updateEntrenamiento(nombre, descripcion, dificultad, usuario, entrenamiento) {
+		return fetch(this.url + '/usuarios/' + usuario + '/entrenamientos/' + entrenamiento, {
 			method: 'PUT',
 			headers: {
 				'Authorization': 'Bearer ' + localStorage.token,
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(usuario)
+			body: JSON.stringify({nombre, descripcion, dificultad})
 		}).then(res => { return res.json() }).catch(err => { return err })
 	}
 

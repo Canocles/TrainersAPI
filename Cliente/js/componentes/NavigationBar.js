@@ -16,7 +16,7 @@ class NavigationBar extends React.Component {
             </div>
           }
           
-          {localStorage.token == null || localStorage.email == null ?
+          {localStorage.token == null || localStorage.login == null ?
             <ul className="nav navbar-nav navbar-right">
               <li>
                 <a onClick={this.props.handleSignUp} href="javascript:void(null)" className="nav-link"><span className="glyphicon glyphicon-user"></span> Registro</a>
