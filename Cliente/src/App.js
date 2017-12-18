@@ -28,11 +28,11 @@ class App extends React.Component {
 
     render() {
         var divContainer = undefined
+        var alerta = null
         if (this.state.inicial) {
             divContainer = <Bienvenida/>
         }
         else if (this.state.registro) {
-            var alerta = null
             if (this.state.mensajeError.includes('Campos')) {
                 alerta = <div>
                             {this.showAlerta('Debes rellenar los campos.')}
@@ -74,7 +74,6 @@ class App extends React.Component {
                             </div>
         }
         else if (this.state.login || this.state.registrado) {
-            var alerta = null
             if (this.state.mensajeError.includes('Campos')) {
                 alerta = <div>
                             {this.showAlerta('Debes rellenar los campos.')}
