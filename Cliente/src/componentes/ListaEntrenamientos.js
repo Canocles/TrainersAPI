@@ -22,8 +22,9 @@ class ListaEntrenamientos extends React.Component {
 
     getEntrenamientos(usuario) {
         new API_servicios().getEntrenamientos(usuario).then((res) => {
-            if (res.entrenamientos.length !== 0) {
+            if (res.entrenamientos.length > 0) {
                 this.setState({ entrenamientos: res.entrenamientos })
+                console.log('Entrenamintos ahora tiene ' + this.state.entrenamientos.length)
             }
             else {
                 this.setState({ mensajeError: 'Aún no tienes entrenamientos asignados ni creados.' })
@@ -64,6 +65,8 @@ class ListaEntrenamientos extends React.Component {
         new API_servicios().deleteEntrenamiento({entrenamiento, usuario: localStorage.usuario}).then((res) => {
             if(res.entrenamientoDeleted) {
                 this.setState({entrenamientoDetalle: false})
+                if (this.state.entrenamientos.length === 1)
+                    this.setState({entrenamientos: [], mensajeError: ''})
                 this.getEntrenamientos(localStorage.usuario)
             }
         })
@@ -87,15 +90,15 @@ class ListaEntrenamientos extends React.Component {
     }
 
     showEntrenamientoDetalle(entrenamiento) {
-        this.setState({entrenamientoDetalle: true, entrenamientoId: entrenamiento})
+        this.setState({entrenamientoDetalle: true, entrenamientoId: entrenamiento, mensajeError: ''})
     }
 
     showListaEntrenamientos() {
-        this.setState({entrenamientoForm: false, entrenamientoDetalle: false})
+        this.setState({entrenamientoForm: false, entrenamientoDetalle: false, mensajeError: ''})
     }
     
     showEntrenamientoForm() {
-        this.setState({entrenamientoForm: true, entrenamientoUpdate: false})
+        this.setState({entrenamientoForm: true, entrenamientoUpdate: false, mensajeError: ''})
     }
 
     render() {
@@ -139,7 +142,7 @@ class ListaEntrenamientos extends React.Component {
         }
         else if (this.state.entrenamientos.length !== 0) {  
             divContainer = <div className="w3-container">
-                                <div className="w3-row-padding">
+                                <div className="w3-row-padding" style={{paddingBottom: 10}}>
                                     <div className="w3-quarter" style={{paddingTop: 10}}>
                                         <a onClick={this.showEntrenamientoForm.bind(this)} href="javascript:void(null)">
                                             <div className="w3-card-2 w3-padding-32 w3-hover-shadow w3-center" style={{borderRadius: 7, backgroundColor: "LightGray", display: "block"}}>
