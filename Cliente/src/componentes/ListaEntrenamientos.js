@@ -165,7 +165,7 @@ class ListaEntrenamientos extends React.Component {
                             </div>
         }
         else {
-            if (this.state.mensajeError.includes('no tienes entrenamientos') {
+            if (this.state.mensajeError.includes('no tienes entrenamientos')) {
                 divContainer = <div className="alert alert-danger fade-in">
                                     <a className="close" data-dismiss="alert" aria-label="close">&times;</a>
                                     <strong>Atención:</strong> No tienes entrenamientos asignados ni creados.
