@@ -12,7 +12,7 @@ class ListaEntrenamientos extends React.Component {
             entrenamientoDetalle: false,
             entrenamientoId: undefined,
             entrenamientos: [],
-            mensajeError: null
+            mensajeError: ''
         }
     }
 
@@ -22,7 +22,7 @@ class ListaEntrenamientos extends React.Component {
 
     getEntrenamientos(usuario) {
         new API_servicios().getEntrenamientos(usuario).then((res) => {
-            if (res.entrenamientos.length != 0) {
+            if (res.entrenamientos.length !== 0) {
                 this.setState({ entrenamientos: res.entrenamientos })
             }
             else {
@@ -32,12 +32,32 @@ class ListaEntrenamientos extends React.Component {
     }
 
     addEntrenamiento(nombre, descripcion, dificultad) {
-        new API_servicios().addEntrenamiento(nombre, descripcion, dificultad, localStorage.usuario).then((res) => {
-            if (!res.message){
-                this.setState({ entrenamientoForm: false })
-                this.getEntrenamientos(localStorage.usuario)
-            }
-		})
+        if ((nombre === '' && descripcion === '' && dificultad === '') || 
+            (nombre === '' && descripcion === '') ||
+            (nombre === '' && dificultad === '') ||
+            (descripcion === '' && dificultad === '')) {
+            this.cambiarMensajeError('Campos incompletos')
+        }
+        else if (nombre === '') {
+            this.cambiarMensajeError('Nombre incompleto')
+        }
+        else if (dificultad === '') {
+            this.cambiarMensajeError('Dificultad incompleta')
+        }
+        else if (dificultad < 0 || dificultad > 10) {
+            this.cambiarMensajeError('Dificultad incorrecta')
+        }
+        else {
+            new API_servicios().addEntrenamiento(nombre, descripcion, dificultad, localStorage.usuario).then((res) => {
+                if (!res.message){
+                    this.setState({ entrenamientoForm: false })
+                    this.getEntrenamientos(localStorage.usuario)
+                }
+                else {
+                    this.cambiarMensajeError(res.message)
+                }
+            })
+        }
     }
 
     deleteEtrenamiento(entrenamiento) {
@@ -47,6 +67,23 @@ class ListaEntrenamientos extends React.Component {
                 this.getEntrenamientos(localStorage.usuario)
             }
         })
+    }
+
+    showAlerta(alerta) {
+        return (
+            <div className="row">
+                <div className="col-md-4 col-md-offset-4">
+                    <div className="alert alert-danger fade-in">
+                        <a onClick={() => {this.cambiarMensajeError('')}} className="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>{this.state.mensajeError}: </strong> {alerta}
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    cambiarMensajeError(mensaje) {
+        this.setState({mensajeError: mensaje})
     }
 
     showEntrenamientoDetalle(entrenamiento) {
@@ -64,13 +101,41 @@ class ListaEntrenamientos extends React.Component {
     render() {
         var divContainer = null
         if (this.state.entrenamientoForm) {
-            divContainer = <EntrenamientoNuevo type='nuevo' handleVolver={this.showListaEntrenamientos.bind(this)} handleNuevoEntrenamiento={this.addEntrenamiento.bind(this)}/>
+            if (this.state.mensajeError.includes('Campos')) {
+                divContainer =  <div>
+                                    {this.showAlerta('Debes rellenar los campos.')}
+                                    <EntrenamientoNuevo type='nuevo' handleVolver={this.showListaEntrenamientos.bind(this)} handleNuevoEntrenamiento={this.addEntrenamiento.bind(this)}/>
+                                </div>
+            }
+            else if (this.state.mensajeError.includes('Nombre')) {
+                divContainer =  <div>
+                                    {this.showAlerta('Debes rellenar el campo nombre.')}
+                                    <EntrenamientoNuevo type='nuevo' handleVolver={this.showListaEntrenamientos.bind(this)} handleNuevoEntrenamiento={this.addEntrenamiento.bind(this)}/>
+                                </div>
+            }
+            else if (this.state.mensajeError.includes('Dificultad')) {
+                if (this.state.mensajeError.includes('incompleta')) {
+                    divContainer =  <div>
+                                        {this.showAlerta('Debes rellenar el campo dificultad.')}
+                                        <EntrenamientoNuevo type='nuevo' handleVolver={this.showListaEntrenamientos.bind(this)} handleNuevoEntrenamiento={this.addEntrenamiento.bind(this)}/>
+                                    </div>
+                }
+                else {
+                    divContainer =  <div>
+                                        {this.showAlerta('El campo dificultad debe estar entre 1 y 10, ambos incluidos')}
+                                        <EntrenamientoNuevo type='nuevo' handleVolver={this.showListaEntrenamientos.bind(this)} handleNuevoEntrenamiento={this.addEntrenamiento.bind(this)}/>
+                                    </div>
+                }
+            }
+            else {
+                divContainer = <EntrenamientoNuevo type='nuevo' handleVolver={this.showListaEntrenamientos.bind(this)} handleNuevoEntrenamiento={this.addEntrenamiento.bind(this)}/>
+            }
         }
         else if (this.state.entrenamientoDetalle) {
             divContainer = <Entrenamiento handleDeleteEntrenamiento={this.deleteEtrenamiento.bind(this)}
                 handleVolver={this.showListaEntrenamientos.bind(this)} entrenamientoId={this.state.entrenamientoId}/>
         }
-        else if (this.state.entrenamientos.length != 0) {  
+        else if (this.state.entrenamientos.length !== 0) {  
             divContainer = <div className="w3-container">
                                 <div className="w3-row-padding">
                                     <div className="w3-quarter" style={{paddingTop: 10}}>
@@ -95,9 +160,9 @@ class ListaEntrenamientos extends React.Component {
                             </div>
         }
         else {
-            if (this.state.mensajeError != null) {
+            if (this.state.mensajeError !== null) {
                 divContainer = <div className="alert alert-danger fade-in">
-                                    <a href="javascript:void(null)" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <a className="close" data-dismiss="alert" aria-label="close">&times;</a>
                                     <strong>Atención:</strong> No tienes entrenamientos asignados ni creados.
                                 </div>
             }
@@ -105,7 +170,7 @@ class ListaEntrenamientos extends React.Component {
         return (
             <div className="w3-container">
                 {divContainer}
-                {this.state.entrenamientos.length == 0 && !this.state.entrenamientoForm ?
+                {this.state.entrenamientos.length === 0 && !this.state.entrenamientoForm ?
                     <div className="w3-quarter" style={{paddingTop: 10}}>
                         <a onClick={this.showEntrenamientoForm.bind(this)} href="javascript:void(null)">
                             <div className="w3-card-2 w3-padding-32 w3-hover-shadow w3-center" style={{borderRadius: 7, backgroundColor: "LightGray", display: "block"}}>

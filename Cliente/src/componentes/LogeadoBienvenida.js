@@ -8,7 +8,7 @@ class LogeadoBienvenida extends React.Component {
                     <h1>Bienvenido a nuestra plataforma</h1>
                 </div>
                 <div className="alert alert-danger fade-in">
-                    <a href="javascript:void(null)" className="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <button href="#" className="close" data-dismiss="alert" aria-label="close">&times;</button>
                     <strong>Atención:</strong> Esta aplicación está en construcción, por lo que únicamente podrá interactuar con sus entrenamientos.
                 </div>
                 <h3>

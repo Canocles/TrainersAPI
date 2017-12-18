@@ -3,7 +3,7 @@ import React from 'react'
 class Registro extends React.Component {
     render() {
         return (
-            <div className="row" onSubmit={this.registro}>
+            <div className="row">
                 <div className="col-md-4 col-md-offset-4">
                     <form>
                         <h1>Únete a nuestra comunidad!</h1>
@@ -20,7 +20,7 @@ class Registro extends React.Component {
                             <input ref={campo => this.password = campo} type="password" name="password" placeholder="Introduzca su contraseña" className="form-control" required/>
                         </div>
                         <div className="form-group">
-                            <a className="btn btn-primary btn-lg" onClick={() => { this.props.handleregistro(this.email.value, this.login.value, this.password.value) }}>
+                            <a className="btn btn-primary btn-lg" onClick={() => { this.props.handleregistro(this.email.value, this.login.value, this.password.value)}}>
                                 Regístrate
                             </a>
                         </div>

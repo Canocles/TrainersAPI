@@ -1,6 +1,8 @@
 var mongoose = require('mongoose')
 var Usuario = require('../models/usuario')
 var service = require('../services')
+var bcrypt = require('bcrypt-nodejs')
+var crypto =  require('crypto')
 var config = require('../config').url
 var hal = require('hal');
 
@@ -35,11 +37,19 @@ function signIn (req, res) {
         if (err) return res.status(500).send({ message: err })
         if (!usuario) return res.status(404).send({ message: 'No existe el usuario' })
         else {
-            var resource = new hal.Resource();
-            resource.link('self', `${config}/login`)
-            resource.link('usuario', `${config}/usuarios/${usuario._id}`)
-            var resultado = Object.assign({ message: 'Te has logeado correctamente', token: service.createToken(usuario), usuario: usuario }, resource.toJSON())
-            return res.status(200).send(resultado)
+            bcrypt.compare(password, usuario.password, (err, resp) => {
+                if (resp) {
+                    var resource = new hal.Resource();
+                    resource.link('self', `${config}/login`)
+                    resource.link('usuario', `${config}/usuarios/${usuario._id}`)
+                    var resultado = Object.assign({ message: 'Te has logeado correctamente', token: service.createToken(usuario), 
+                                                    usuarioId: usuario._id, usuarioLogin: usuario.login }, resource.toJSON())
+                    return res.status(200).send(resultado)
+                }
+                else {
+                    return res.status(404).send({message: 'Contraseña incorrecta'})
+                }
+            })   
         }
     })
 }

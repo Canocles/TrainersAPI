@@ -1,10 +1,9 @@
 import React from 'react'
-import EmisorEventos from '../servicios/EmisorEventos'
 
 class EntrenamientoNuevo extends React.Component {
     render() {
         var divContainer = null
-        if (this.props.type == 'nuevo') {
+        if (this.props.type === 'nuevo') {
             divContainer = <form>
                                 <h1>Formulario para crear un entrenamiento</h1>
                                 <div className="form-group">

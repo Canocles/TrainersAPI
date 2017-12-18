@@ -1,8 +1,7 @@
-import React from 'react'
-
 class API_servicios {
     constructor() {
         this.url = 'http://localhost:3000'
+        //this.url = 'https://api-rest-trainners.herokuapp.com'
     }
 
     registro(usuario) {

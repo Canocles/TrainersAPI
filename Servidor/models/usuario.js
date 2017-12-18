@@ -10,7 +10,7 @@ var UsuarioSchema = Schema ({
     apellidos: String,
     fechaNacimiento: Date,
     sexo: String,
-    password: { type: String, select: false },
+    password: { type: String },
     signupDate: { type: Date, default: Date.now() },
     lastLogin: Date,
     entrenamientos: [{
