@@ -32,84 +32,83 @@ class App extends React.Component {
             divContainer = <Bienvenida/>
         }
         else if (this.state.registro) {
+            var alerta = null
             if (this.state.mensajeError.includes('Campos')) {
-                divContainer =  <div>
-                                    <Registro handleregistro={this.registro.bind(this)}/>
-                                    {this.showAlerta('Debes rellenar los campos.')}
-                                </div>
+                alerta = <div>
+                            {this.showAlerta('Debes rellenar los campos.')}
+                        </div>
             } 
             else if (this.state.mensajeError.includes('Email')) {
                 if (this.state.mensajeError === 'Email incorrecto') {
-                    divContainer =  <div>
-                                        <Registro handleregistro={this.registro.bind(this)}/>
-                                        {this.showAlerta('El email no tiene un formato correcto.')}
-                                    </div>
+                    alerta = <div>
+                                {this.showAlerta('El email no tiene un formato correcto.')}
+                            </div>
                 }
                 else {
-                    divContainer =  <div>
-                                        <Registro handleregistro={this.registro.bind(this)}/>
-                                        {this.showAlerta('Debes rellenar el campo email.')}
-                                    </div>
+                    alerta = <div>
+                                {this.showAlerta('Debes rellenar el campo email.')}
+                            </div>
                 }
             }
             else if (this.state.mensajeError.includes('Login')) {
-                divContainer =  <div>
-                                    <Registro handleregistro={this.registro.bind(this)}/>
-                                    {this.showAlerta('Debes rellenar el campo login.')}
-                                </div>
+                alerta = <div>
+                            {this.showAlerta('Debes rellenar el campo login.')}
+                        </div>
             }
             else if (this.state.mensajeError.includes('Password')) {
-                divContainer =  <div>
-                                    <Registro handleregistro={this.registro.bind(this)}/>
-                                    {this.showAlerta('Debes rellenar el campo password.')}
-                                </div>
+                alerta = <div>
+                            {this.showAlerta('Debes rellenar el campo password.')}
+                        </div>
             }
             else if (this.state.mensajeError.includes('Usuario')) {
-                divContainer =  <div>
-                                    <Registro handleregistro={this.registro.bind(this)}/>
-                                    {this.showAlerta('El usuario ya existe.')}
-                                </div>
+                alerta = <div>
+                            {this.showAlerta('El usuario ya existe.')}
+                        </div>
             }
             else {
-                divContainer = <Registro handleregistro={this.registro.bind(this)}/>
-            }  
+                alerta = null
+            } 
+            divContainer = <div>
+                                {alerta}
+                                <Registro handleregistro={this.registro.bind(this)}/>
+                            </div>
         }
         else if (this.state.login || this.state.registrado) {
+            var alerta = null
             if (this.state.mensajeError.includes('Campos')) {
-                divContainer =  <div>
-                                    <Login handleLogin={this.login.bind(this)}/>
-                                    {this.showAlerta('Debes rellenar los campos.')}
-                                </div>
+                alerta = <div>
+                            {this.showAlerta('Debes rellenar los campos.')}
+                        </div>
             }
             else if (this.state.mensajeError.includes('Email')) {
                 if (this.state.mensajeError === 'Email incorrecto') {
-                    divContainer =  <div>
-                                        <Login handleLogin={this.login.bind(this)}/>
-                                        {this.showAlerta('El email no tiene un formato correcto.')}
-                                    </div>
+                    alerta = <div>
+                                {this.showAlerta('El email no tiene un formato correcto.')}
+                            </div>
                 }
                 else {
-                    divContainer =  <div>
-                                        <Login handleLogin={this.login.bind(this)}/>
-                                        {this.showAlerta('Debes rellenar el campo email.')}
-                                    </div>
+                    alerta = <div>
+                                {this.showAlerta('Debes rellenar el campo email.')}
+                            </div>
                 }
             }
             else if (this.state.mensajeError.includes('Password')) {
-                divContainer =  <div>
-                                    <Login handleLogin={this.login.bind(this)}/>
-                                    {this.showAlerta('Debes rellenar el campo password.')}
-                                </div>
+                alerta = <div>
+                            {this.showAlerta('Debes rellenar el campo password.')}
+                        </div>
             }
             else if (this.state.mensajeError.includes('Contraseña')) {
-                divContainer =  <div>
-                                    <Login handleLogin={this.login.bind(this)}/>
-                                    {this.showAlerta('La contraseña o el usuario no coinciden.')}
-                                </div>
+                alerta = <div>
+                            {this.showAlerta('La contraseña o el usuario no coinciden.')}
+                        </div>
             }
             else {
-                divContainer = <Login handleLogin={this.login.bind(this)}/>
+                alerta = null
             }
+            divContainer = <div>
+                                {alerta}
+                                <Login handleLogin={this.login.bind(this)}/>
+                            </div>
         }
         else if (localStorage.logeado && this.state.entrenamientos) {
             divContainer = <ListaEntrenamientos />

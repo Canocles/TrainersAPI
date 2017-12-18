@@ -101,35 +101,37 @@ class ListaEntrenamientos extends React.Component {
     render() {
         var divContainer = null
         if (this.state.entrenamientoForm) {
+            var alerta = null
             if (this.state.mensajeError.includes('Campos')) {
-                divContainer =  <div>
-                                    {this.showAlerta('Debes rellenar los campos.')}
-                                    <EntrenamientoNuevo type='nuevo' handleVolver={this.showListaEntrenamientos.bind(this)} handleNuevoEntrenamiento={this.addEntrenamiento.bind(this)}/>
-                                </div>
+                alerta = <div>
+                            {this.showAlerta('Debes rellenar los campos.')}
+                        </div>
             }
             else if (this.state.mensajeError.includes('Nombre')) {
-                divContainer =  <div>
-                                    {this.showAlerta('Debes rellenar el campo nombre.')}
-                                    <EntrenamientoNuevo type='nuevo' handleVolver={this.showListaEntrenamientos.bind(this)} handleNuevoEntrenamiento={this.addEntrenamiento.bind(this)}/>
-                                </div>
+                alerta = <div>
+                            {this.showAlerta('Debes rellenar el campo nombre.')}
+                        </div>
             }
             else if (this.state.mensajeError.includes('Dificultad')) {
                 if (this.state.mensajeError.includes('incompleta')) {
-                    divContainer =  <div>
-                                        {this.showAlerta('Debes rellenar el campo dificultad.')}
-                                        <EntrenamientoNuevo type='nuevo' handleVolver={this.showListaEntrenamientos.bind(this)} handleNuevoEntrenamiento={this.addEntrenamiento.bind(this)}/>
-                                    </div>
+                    alerta = <div>
+                                {this.showAlerta('Debes rellenar el campo dificultad.')}
+                            </div>
                 }
                 else {
-                    divContainer =  <div>
-                                        {this.showAlerta('El campo dificultad debe estar entre 1 y 10, ambos incluidos')}
-                                        <EntrenamientoNuevo type='nuevo' handleVolver={this.showListaEntrenamientos.bind(this)} handleNuevoEntrenamiento={this.addEntrenamiento.bind(this)}/>
-                                    </div>
+                    alerta = <div>
+                                {this.showAlerta('El campo dificultad debe estar entre 1 y 10, ambos incluidos')}
+                            </div>
                 }
             }
             else {
-                divContainer = <EntrenamientoNuevo type='nuevo' handleVolver={this.showListaEntrenamientos.bind(this)} handleNuevoEntrenamiento={this.addEntrenamiento.bind(this)}/>
+                alerta = null
             }
+            divContainer = <div>
+                                {alerta}
+                                <EntrenamientoNuevo type='nuevo' handleVolver={this.showListaEntrenamientos.bind(this)} 
+                                    handleNuevoEntrenamiento={this.addEntrenamiento.bind(this)}/>
+                            </div>
         }
         else if (this.state.entrenamientoDetalle) {
             divContainer = <Entrenamiento handleDeleteEntrenamiento={this.deleteEtrenamiento.bind(this)}

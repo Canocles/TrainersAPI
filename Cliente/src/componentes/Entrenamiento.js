@@ -77,37 +77,37 @@ class Entrenamiento extends React.Component {
     render() {
         var divContainer = null
         if (this.state.entrenamientoUpdate) {
+            var alerta = null
             if (this.state.mensajeError.includes('Campos')) {
-                divContainer =  <div>
-                                    {this.showAlerta('Debes rellenar los campos.')}
-                                    <EntrenamientoNuevo type='modificar' entrenamiento={this.state.entrenamiento}
-                                        handleVolver={this.props.handleVolver} handleUpdateEntrenamiento={this.updateEntrenamiento.bind(this)}/>                                     <EntrenamientoNuevo type='modificar' handleVolver={this.showListaEntrenamientos.bind(this)} handleNuevoEntrenamiento={this.addEntrenamiento.bind(this)}/>
-                                </div>
+                alerta = <div>
+                            {this.showAlerta('Debes rellenar los campos.')}
+                        </div>
             }
             else if (this.state.mensajeError.includes('Nombre')) {
-                divContainer =  <div>
-                                    {this.showAlerta('Debes rellenar el campo nombre.')}
-                                    <EntrenamientoNuevo type='modificar' entrenamiento={this.state.entrenamiento}
-                                        handleVolver={this.props.handleVolver} handleUpdateEntrenamiento={this.updateEntrenamiento.bind(this)}/>                                 </div>
+                alerta =  <div>
+                            {this.showAlerta('Debes rellenar el campo nombre.')}
+                        </div>
             }
             else if (this.state.mensajeError.includes('Dificultad')) {
                 if (this.state.mensajeError.includes('incompleta')) {
-                    divContainer =  <div>
-                                        {this.showAlerta('Debes rellenar el campo dificultad.')}
-                                        <EntrenamientoNuevo type='modificar' entrenamiento={this.state.entrenamiento}
-                                            handleVolver={this.props.handleVolver} handleUpdateEntrenamiento={this.updateEntrenamiento.bind(this)}/>                                     </div>
+                    alerta =  <div>
+                                {this.showAlerta('Debes rellenar el campo dificultad.')}
+                            </div>
                 }
                 else {
-                    divContainer =  <div>
-                                        {this.showAlerta('El campo dificultad debe estar entre 1 y 10, ambos incluidos')}
-                                        <EntrenamientoNuevo type='modificar' entrenamiento={this.state.entrenamiento}
-                                            handleVolver={this.props.handleVolver} handleUpdateEntrenamiento={this.updateEntrenamiento.bind(this)}/>                                     </div>
+                    alerta =  <div>
+                                {this.showAlerta('El campo dificultad debe estar entre 1 y 10, ambos incluidos')}
+                            </div>
                 }
             }
             else {
-                divContainer = <EntrenamientoNuevo type='modificar' entrenamiento={this.state.entrenamiento}
-                    handleVolver={this.props.handleVolver} handleUpdateEntrenamiento={this.updateEntrenamiento.bind(this)}/> 
+                alerta = null
             }         
+            divContainer = <div>
+                                {alerta}
+                                <EntrenamientoNuevo type='modificar' entrenamiento={this.state.entrenamiento}
+                                    handleVolver={this.props.handleVolver} handleUpdateEntrenamiento={this.updateEntrenamiento.bind(this)}/> 
+                            </div>
         }
         else {
             divContainer = <div className="container">
