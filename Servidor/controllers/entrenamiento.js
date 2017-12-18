@@ -54,7 +54,7 @@ function addEntrenamiento (req, res) {
             entrenamiento.nombre = req.body.nombre
             entrenamiento.descripcion = req.body.descripcion
             entrenamiento.dificultad = req.body.dificultad
-            entrenamiento.creador = req.params.usuarioId
+            entrenamiento.creador = usuario._id
 
             entrenamiento.save((err, entrenamientoGuardado) => {
                 if (err) 

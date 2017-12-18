@@ -10,7 +10,7 @@ class API_servicios {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(usuario)
-		}).then(response => { return response.json() }).catch(err => { return err })
+		}).then(res => { return res.json() }).catch(err => { return err })
     }
 
     login(usuario) {
@@ -20,7 +20,7 @@ class API_servicios {
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(usuario)
-		}).then(response => { return response.json() }).catch(err => { return err })
+		}).then(res => { return res.json() }).catch(err => { return err })
 	}
 	
 	getEntrenamientos(usuario) {
@@ -30,7 +30,49 @@ class API_servicios {
 				'Authorization': 'Bearer ' + localStorage.token,
 				'Content-Type': 'application/json'
 			}
-		}).then(response => { return response.json() }).catch(err => { return err })
+		}).then(res => { return res.json() }).catch(err => { return err })
+	}
+
+	getEntrenamiento(req) {
+		return fetch(this.url + '/usuarios/' + req.usuario + '/entrenamientos/' + req.entrenamiento, {
+			method: 'GET',
+			headers: {
+				'Authorization': 'Bearer ' + localStorage.token,
+				'Content-Type': 'application/json'
+			}
+		}).then(res => { return res.json() }).catch(err => { return err })
+	}
+	
+	addEntrenamiento(nombre, descripcion, dificultad, usuario) {
+		return fetch(this.url + '/usuarios/' + usuario + '/entrenamientos', {
+			method: 'POST',
+			headers: {
+				'Authorization': 'Bearer ' + localStorage.token,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({nombre, descripcion, dificultad})
+		}).then(res => { return res.json() }).catch(err => { return err })
+	}
+
+	updateEntrenamiento(req) {
+		return fetch(this.url + '/usuarios/' + req.usuario + '/entrenamientos/' + req.entrenamiento, {
+			method: 'PUT',
+			headers: {
+				'Authorization': 'Bearer ' + localStorage.token,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(usuario)
+		}).then(res => { return res.json() }).catch(err => { return err })
+	}
+
+	deleteEntrenamiento(req) {
+		return fetch(this.url + '/usuarios/' + req.usuario + '/entrenamientos/' + req.entrenamiento, {
+			method: 'DELETE',
+			headers: {
+				'Authorization': 'Bearer ' + localStorage.token,
+				'Content-Type': 'application/json'
+			}
+		}).then(res => { return res.json() }).catch(err => { return err })
 	}
 }
 

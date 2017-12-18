@@ -20,6 +20,7 @@ class App extends React.Component {
             logeado: false,
             inicial: false,
             mensajeError: undefined,
+            enntrenamientoForm: false,
             entrenamientos: false,
         }
     }
@@ -40,7 +41,7 @@ class App extends React.Component {
             divContainer = <Login handleLogin={this.login.bind(this)}/>
         }
         else if (localStorage.logeado && this.state.entrenamientos) {
-            divContainer = <ListaEntrenamientos/>
+            divContainer = <ListaEntrenamientos />
         }
         else if (localStorage.logeado) {
             divContainer = <LogeadoBienvenida />
@@ -85,18 +86,7 @@ class App extends React.Component {
             }
         })
     }
-    /*
-    getEntrenamientos (usuario_id) {
-        new API_servicios().getEntrenamientos({usuario_id}).then((res) => {
-            if (res.entrenamientos) {
-                this.setState({ entrenamientos: res.entrenamientos })
-            }
-            else if (res.message == 'No existen entrenamientos') {
-                this.setState({ mensajeError: res.message })
-            }
-		})
-    }
-    */
+
     showEntrenamientos() {
         this.setState({entrenamientos: true})
     }
