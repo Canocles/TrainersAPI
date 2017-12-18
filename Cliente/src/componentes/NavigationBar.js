@@ -7,11 +7,11 @@ class NavigationBar extends React.Component {
         <div className="container-fluid">
           {localStorage.logeado == null ?
             <div className="navbar-header">
-              <a onClick={this.props.handleInicial} href="javascript:void(null)" className="navbar-brand">Trainners App</a>
+              <a onClick={this.props.handleInicial} href="javascript:void(null)" className="navbar-brand">Trainers App</a>
             </div>
           :
             <div className="navbar-header">
-              <a onClick={this.props.handleInicialLogeado} href="javascript:void(null)" className="navbar-brand">Trainners App</a>
+              <a onClick={this.props.handleInicialLogeado} href="javascript:void(null)" className="navbar-brand">Trainers App</a>
               <a onClick={this.props.handleEntrenamientos} href="javascript:void(null)" className="navbar-brand">Entrenamientos</a>
             </div>
           }
