@@ -51,8 +51,9 @@ class ListaEntrenamientos extends React.Component {
         else {
             new API_servicios().addEntrenamiento(nombre, descripcion, dificultad, localStorage.usuario).then((res) => {
                 if (!res.message){
-                    this.setState({ entrenamientoForm: false })
-                    this.getEntrenamientos(localStorage.usuario)
+                    var entrenamientosNuevos = this.state.entrenamientos
+                    entrenamientosNuevos.push(res.entrenamientoGuardado)
+                    this.setState({ entrenamientoForm: false, entrenamientos: entrenamientosNuevos})
                 }
                 else {
                     this.cambiarMensajeError(res.message)
@@ -64,10 +65,10 @@ class ListaEntrenamientos extends React.Component {
     deleteEtrenamiento(entrenamiento) {
         new API_servicios().deleteEntrenamiento({entrenamiento, usuario: localStorage.usuario}).then((res) => {
             if(res.entrenamientoDeleted) {
-                this.setState({entrenamientoDetalle: false})
-                if (this.state.entrenamientos.length === 1)
-                    this.setState({entrenamientos: [], mensajeError: ''})
-                this.getEntrenamientos(localStorage.usuario)
+                var entrenamientosBorrado = this.state.entrenamientos.filter(function(i) {
+                    return i._id !== res.entrenamientoDeleted._id
+                })
+                this.setState({entrenamientoDetalle: false, entrenamientos: entrenamientosBorrado})
             }
         })
     }
