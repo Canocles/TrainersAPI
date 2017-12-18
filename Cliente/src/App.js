@@ -152,7 +152,7 @@ class App extends React.Component {
             this.cambiarMensajeError('Password incompleta')
         }
         else {
-            new API_servicios().registro({email, login, password}).then(res => {
+            new API_servicios().registro({email: email.toLowerCase(), login, password}).then(res => {
                 if (res.token) {
                     localStorage.token = res.token
                     this.setState({registrado: true, registro: false})
@@ -178,7 +178,7 @@ class App extends React.Component {
             this.cambiarMensajeError('Password incompleta')
         }
         else {
-            new API_servicios().login({email, password}).then(res => {
+            new API_servicios().login({email: email.toLowerCase(), password}).then(res => {
                 if (res.token) {
                     localStorage.token = res.token
                     localStorage.login = res.usuarioLogin
