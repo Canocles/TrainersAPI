@@ -175,17 +175,19 @@ class ListaEntrenamientos extends React.Component {
         return (
             <div className="w3-container">
                 {divContainer}
-                {this.state.entrenamientos.length === 0 && !this.state.entrenamientoForm ?
-                    <div className="w3-quarter" style={{paddingTop: 10}}>
-                        <a onClick={this.showEntrenamientoForm.bind(this)} href="javascript:void(null)">
-                            <div className="w3-card-2 w3-padding-32 w3-hover-shadow w3-center" style={{borderRadius: 7, backgroundColor: "LightGray", display: "block"}}>
-                                    Agregar un entrenamiento
-                            </div>
-                        </a>
-                    </div>
-                :
-                null
-                }
+                <div className="w3-row-padding" style={{paddingBottom: 10}}>
+                    {this.state.entrenamientos.length === 0 && !this.state.entrenamientoForm ?
+                        <div className="w3-quarter" style={{paddingTop: 10}}>
+                            <a onClick={this.showEntrenamientoForm.bind(this)} href="javascript:void(null)">
+                                <div className="w3-card-2 w3-padding-32 w3-hover-shadow w3-center" style={{borderRadius: 7, backgroundColor: "LightGray", display: "block"}}>
+                                        Agregar un entrenamiento
+                                </div>
+                            </a>
+                        </div>
+                    :
+                    null
+                    }
+                </div>
             </div>
         )
     }
