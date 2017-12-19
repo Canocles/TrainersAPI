@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LogeadoBienvenida (snpashot) El componente de LogeadoBienvenida se renderiza correctamente 1`] = `
+<div
+  className="container"
+  style={
+    Object {
+      "padding": 10,
+    }
+  }
+>
+  <div
+    className="jumbotron"
+  >
+    <h1>
+      Bienvenido a nuestra plataforma
+    </h1>
+  </div>
+  <div
+    className="alert alert-danger fade-in"
+  >
+    <button
+      aria-label="close"
+      className="close"
+      data-dismiss="alert"
+      href="#"
+    >
+      ×
+    </button>
+    <strong>
+      Atención:
+    </strong>
+     Esta aplicación está en construcción, por lo que únicamente podrá interactuar con sus entrenamientos.
+  </div>
+  <h3>
+    En nuestra plataforma, vas a poder crear, modificar o eliminar entrenamientos para de esta forma seguir con un plan de entrenamiento.
+  </h3>
+</div>
+`;

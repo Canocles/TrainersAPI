@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Welcome (Snapshot) Welcome renders hello world 1`] = `
+exports[`Bienvenida (snpashot) La página de Bienvenida se renderiza correctamente 1`] = `
 <div
   className="container"
   style={
